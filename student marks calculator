@@ -1,0 +1,57 @@
+Student Marks Calculator with Exception Handling and File Saving
+
+def calculate_grade(average):
+    if average >= 90:
+        return 'A+'
+    elif average >= 80:
+        return 'A'
+    elif average >= 70:
+        return 'B'
+    elif average >= 60:
+        return 'C'
+    elif average >= 50:
+        return 'D'
+    else:
+        return 'F'
+
+def save_to_file(name, total, average, grade):
+    with open("student_results.txt", "a") as file:
+        file.write(f"{name}, Total: {total}, Average: {average:.2f}, Grade: {grade}\n")
+
+def main():
+    print("Welcome to the Enhanced Student Marks Calculator!")
+    
+    try:
+        name = input("Enter the student's name: ")
+        num_subjects = int(input("Enter the number of subjects: "))
+        
+        if num_subjects <= 0:
+            raise ValueError("Number of subjects must be positive!")
+
+        marks = []
+        for i in range(num_subjects):
+            mark = float(input(f"Enter marks for subject {i+1}: "))
+            if mark < 0 or mark > 100:
+                raise ValueError("Marks must be between 0 and 100.")
+            marks.append(mark)
+
+        total = sum(marks)
+        average = total / num_subjects
+        grade = calculate_grade(average)
+
+        print("\n----- Result -----")
+        print(f"Name: {name}")
+        print(f"Total Marks: {total}")
+        print(f"Average Marks: {average:.2f}")
+        print(f"Grade: {grade}")
+
+        save_to_file(name, total, average, grade)
+        print(" Results saved to student_results.txt")
+
+    except ValueError as ve:
+        print(f"Input Error: {ve}")
+    except Exception as e:
+        print(f"Something went wrong: {e}")
+
+if __name__ == "__main__":
+    main()
